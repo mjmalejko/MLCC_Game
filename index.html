@@ -70,8 +70,10 @@ for(const team of ['Group 1','Group 2']){
   for(const p of players.filter(x=>x.team===team)){
     html+=`<div class="cell label">${p.name}<span class="small">${team}</span></div>`;
     for(const h of course){
-      const g=gross(p,h),n=net(p,h),isCount=countingIds(team,h).includes(p.id);
-      html+=`<div class="cell ${isCount?'counting':''}">${g?`<span class="grossNet">${g}/${n}</span>`:'-'}</div>`
+      const g=gross(p,h),n=net(p,h),st=strokes(p,h),isCount=countingIds(team,h).includes(p.id);
+      const mark=st>0?`<span class="small">${'•'.repeat(st)}</span>`:'';
+      const scoreText=g?(st>0?`${g}/${n}`:`${g}`):'-';
+      html+=`<div class="cell ${isCount?'counting':''}">${g?`${mark}<span class="grossNet">${scoreText}</span>`:'-'}</div>`
     }
     const sumGross=(holes)=>holes.reduce((t,h)=>t+(gross(p,h)||0),0);
     const sumNet=(holes)=>holes.reduce((t,h)=>t+(net(p,h)||0),0);
